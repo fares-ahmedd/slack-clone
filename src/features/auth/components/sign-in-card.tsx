@@ -12,17 +12,19 @@ import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { SignInFlow } from "../types";
 import { useState } from "react";
+import { useAuthActions } from "@convex-dev/auth/react";
 
 type Props = {
   setState: (state: SignInFlow) => void;
 };
 
 function SignInCard({ setState }: Props) {
+  const { signIn } = useAuthActions();
   const [data, setData] = useState({
     email: "",
     password: "",
   });
-
+  const [loading, setLoading] = useState(false);
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     key: string
@@ -33,6 +35,12 @@ function SignInCard({ setState }: Props) {
     }));
   };
 
+  const handleProviderSignIn = (value: "github" | "google") => {
+    setLoading(true);
+    signIn(value).finally(() => {
+      setLoading(false);
+    });
+  };
   return (
     <Card className=" h-full p-8 ">
       <CardHeader className="px-0 pt-0">
@@ -45,9 +53,9 @@ function SignInCard({ setState }: Props) {
       </CardHeader>
 
       <CardContent className="space-y-5 px-0 mb-0">
-        <form className="space-y-1.5">
+        <form className="space-y-2.5 my-2">
           <Input
-            disabled={false}
+            disabled={loading}
             value={data.email}
             onChange={(e) => handleChange(e, "email")}
             placeholder="email"
@@ -55,14 +63,19 @@ function SignInCard({ setState }: Props) {
             required
           />
           <Input
-            disabled={false}
+            disabled={loading}
             value={data.password}
             onChange={(e) => handleChange(e, "password")}
             placeholder="password"
             type="password"
             required
           />
-          <Button type="submit" className="w-full" size={"lg"} disabled={false}>
+          <Button
+            type="submit"
+            className="w-full"
+            size={"lg"}
+            disabled={loading}
+          >
             Continue
           </Button>
         </form>
@@ -71,8 +84,8 @@ function SignInCard({ setState }: Props) {
 
         <div className="flex flex-col gap-y-1.5">
           <Button
-            disabled={false}
-            onClick={() => {}}
+            disabled={loading}
+            onClick={() => handleProviderSignIn("google")}
             variant={"outline"}
             size={"lg"}
             className="w-full relative block"
@@ -82,8 +95,8 @@ function SignInCard({ setState }: Props) {
           </Button>
 
           <Button
-            disabled={false}
-            onClick={() => {}}
+            disabled={loading}
+            onClick={() => handleProviderSignIn("github")}
             variant={"outline"}
             size={"lg"}
             className="w-full relative block "
@@ -97,6 +110,7 @@ function SignInCard({ setState }: Props) {
           Don&apos;t have an account ?{" "}
           <button
             className="text-sky-700 hover:underline cursor-pointer"
+            disabled={loading}
             onClick={() => setState("SignUp")}
           >
             Sign Up
