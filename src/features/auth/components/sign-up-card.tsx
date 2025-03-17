@@ -15,6 +15,8 @@ import { useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { isPasswordValid, isValidEmail } from "@/lib/utils";
 import toast from "react-hot-toast";
+import Image from "next/image";
+import logo from "../../../../public/logo-icon.webp";
 
 type Props = {
   setState: (state: SignInFlow) => void;
@@ -24,6 +26,7 @@ function SignUpCard({ setState }: Props) {
   const { signIn } = useAuthActions();
 
   const [data, setData] = useState({
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -52,16 +55,20 @@ function SignUpCard({ setState }: Props) {
     if (
       !isValidEmail(data.email) ||
       !data.password ||
-      data.password !== data.confirmPassword
+      data.password !== data.confirmPassword ||
+      !data.name.trim()
     ) {
       toast.error("Please enter a valid data and make sure passwords match");
       return;
     }
     setLoading(true);
     signIn("password", { ...data, flow: "signUp" })
+      .then(() => {
+        toast.success("Sign Up Successful");
+      })
       .catch(() => {
         toast.error("Something Went Wrong !");
-        setData({ email: "", password: "", confirmPassword: "" });
+        setData({ email: "", password: "", confirmPassword: "", name: "" });
       })
       .finally(() => {
         setLoading(false);
@@ -77,6 +84,14 @@ function SignUpCard({ setState }: Props) {
   return (
     <Card className="w-full h-full p-8">
       <CardHeader className="px-0 pt-0">
+        <Image
+          src={logo}
+          alt="logo"
+          width={50}
+          height={50}
+          placeholder="blur"
+          className="mx-auto"
+        />
         <CardTitle className="text-base md:text-3xl">
           Sign Up To Continue
         </CardTitle>
@@ -94,7 +109,15 @@ function SignUpCard({ setState }: Props) {
             placeholder="email"
             type="email"
             required
-          />{" "}
+          />
+          <Input
+            disabled={loading}
+            value={data.name}
+            onChange={(e) => handleChange(e, "name")}
+            placeholder="full name"
+            type="text"
+            required
+          />
           <Input
             disabled={loading}
             value={data.password}
