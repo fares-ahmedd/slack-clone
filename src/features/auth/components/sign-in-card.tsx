@@ -13,6 +13,8 @@ import { FcGoogle } from "react-icons/fc";
 import { SignInFlow } from "../types";
 import { useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
+import toast from "react-hot-toast";
+import { isValidEmail } from "@/lib/utils";
 
 type Props = {
   setState: (state: SignInFlow) => void;
@@ -41,6 +43,24 @@ function SignInCard({ setState }: Props) {
       setLoading(false);
     });
   };
+
+  const onPasswordSignIn = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!isValidEmail(data.email) || !data.password) {
+      toast.error("Please enter a valid email and password");
+      return;
+    }
+    setLoading(true);
+    signIn("password", { ...data, flow: "signIn" })
+      .catch(() => {
+        toast.error("Invalid email or password");
+        setData({ email: "", password: "" });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
   return (
     <Card className=" h-full p-8 ">
       <CardHeader className="px-0 pt-0">
@@ -53,7 +73,7 @@ function SignInCard({ setState }: Props) {
       </CardHeader>
 
       <CardContent className="space-y-5 px-0 mb-0">
-        <form className="space-y-2.5 my-2">
+        <form className="space-y-2.5 my-2" onSubmit={onPasswordSignIn}>
           <Input
             disabled={loading}
             value={data.email}
