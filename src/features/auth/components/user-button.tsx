@@ -16,7 +16,7 @@ function UserButton() {
   const { data, isLoading } = useCurrentUser();
 
   if (isLoading) {
-    return <Loader className="size-4 animate-spin text-muted-foreground" />;
+    return <Loader className="size-4 animate-spin text-white" />;
   }
 
   if (!data) {
@@ -39,9 +39,9 @@ function UserButton() {
       <DropdownMenuContent
         align="center"
         side="right"
-        className="w-60 p-2 space-y-2"
+        className="w-60 p-2 space-y-2 mx-4 mb-1"
       >
-        <Image src={logo} alt={"logo"} className="mx-auto size-auto" />
+        <Image src={logo} alt={"logo"} className=" size-auto" />
         <address>{email}</address>
         <Separator />
         <DropdownMenuItem onClick={signOut} className="h-10 cursor-pointer">

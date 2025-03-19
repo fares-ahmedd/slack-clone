@@ -1,10 +1,12 @@
 "use client";
 
-import UserButton from "@/features/auth/components/user-button";
 import { useCreateWorkspaceModal } from "@/features/workspaces/store/use-create-workspace-modal";
 import { useGetWorkspaces } from "@/features/workspaces/api/use-get-workspaces";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Loader, Plus } from "lucide-react";
+import Logo from "@/components/logo";
 
 export default function Home() {
   const router = useRouter();
@@ -14,18 +16,27 @@ export default function Home() {
   const workspaceId = data?.[0]?._id;
 
   useEffect(() => {
-    if (isLoading) return;
-
     if (workspaceId) {
       router.replace(`/workspace/${workspaceId}`);
-    } else if (!open) {
-      setOpen(true);
     }
-  }, [isLoading, workspaceId, open, setOpen, router]);
+  }, [workspaceId, open, setOpen, router]);
 
   return (
-    <div>
-      <UserButton />
+    <div className="h-screen flex items-center justify-center flex-col gap-3 bg-[#5f2659]">
+      {isLoading ? (
+        <Loader className="size-6 animate-spin text-white" />
+      ) : (
+        <>
+          <Logo size={100} />
+          <Button
+            onClick={() => setOpen(true)}
+            size={"lg"}
+            variant={"secondary"}
+          >
+            <Plus className="size-4" /> Create Workspace
+          </Button>
+        </>
+      )}
     </div>
   );
 }

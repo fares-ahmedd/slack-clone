@@ -15,8 +15,7 @@ import { useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import toast from "react-hot-toast";
 import { isValidEmail } from "@/lib/utils";
-import Image from "next/image";
-import logo from "../../../../public/logo-icon.webp";
+import Logo from "@/components/logo";
 type Props = {
   setState: (state: SignInFlow) => void;
 };
@@ -54,12 +53,12 @@ function SignInCard({ setState }: Props) {
     }
     setLoading(true);
     signIn("password", { ...data, flow: "signIn" })
+      .then(() => {
+        toast.success("Login Successful");
+      })
       .catch(() => {
         toast.error("Invalid email or password");
         setData({ email: "", password: "" });
-      })
-      .then(() => {
-        toast.success("Login Successful");
       })
       .finally(() => {
         setLoading(false);
@@ -68,14 +67,7 @@ function SignInCard({ setState }: Props) {
   return (
     <Card className=" h-full p-8 ">
       <CardHeader className="px-0 pt-0">
-        <Image
-          src={logo}
-          alt="logo"
-          width={50}
-          height={50}
-          placeholder="blur"
-          className="mx-auto"
-        />
+        <Logo className="mx-auto" />
         <CardTitle className="text-base md:text-3xl">
           Login To Continue
         </CardTitle>
@@ -92,6 +84,7 @@ function SignInCard({ setState }: Props) {
             onChange={(e) => handleChange(e, "email")}
             placeholder="email"
             type="email"
+            autoFocus
             required
           />
           <Input

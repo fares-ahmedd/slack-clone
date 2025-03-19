@@ -37,6 +37,7 @@ function CreateWorkSpaceModal() {
       {
         onSuccess: (workspaceId) => {
           setOpen(false);
+          setName("");
           router.replace(`/workspace/${workspaceId}`);
           toast.success("Workspace created successfully");
         },

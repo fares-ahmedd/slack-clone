@@ -15,8 +15,7 @@ import { useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { isPasswordValid, isValidEmail } from "@/lib/utils";
 import toast from "react-hot-toast";
-import Image from "next/image";
-import logo from "../../../../public/logo-icon.webp";
+import Logo from "@/components/logo";
 
 type Props = {
   setState: (state: SignInFlow) => void;
@@ -84,14 +83,7 @@ function SignUpCard({ setState }: Props) {
   return (
     <Card className="w-full h-full p-8">
       <CardHeader className="px-0 pt-0">
-        <Image
-          src={logo}
-          alt="logo"
-          width={50}
-          height={50}
-          placeholder="blur"
-          className="mx-auto"
-        />
+        <Logo className="mx-auto" />
         <CardTitle className="text-base md:text-3xl">
           Sign Up To Continue
         </CardTitle>
