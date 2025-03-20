@@ -14,7 +14,9 @@ function Toolbar() {
       {isLoadingUser ? (
         <Loader className="size-6 animate-spin text-white" />
       ) : (
-        <h1 className="text-base md:text-xl">{user?.name}</h1>
+        <h1 className="text-xs md:text-xl flex-1/2">
+          {user?.name?.split(" ")[0]}
+        </h1>
       )}
 
       <div className="w-full max-w-[642px] grow-[2] shrink">

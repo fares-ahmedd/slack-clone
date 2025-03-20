@@ -15,11 +15,14 @@ export default function Home() {
 
   const workspaceId = data?.[0]?._id;
 
-  useEffect(() => {
-    if (workspaceId) {
-      router.replace(`/workspace/${workspaceId}`);
-    }
-  }, [workspaceId, open, setOpen, router]);
+  useEffect(
+    function checkForWorkspaceId() {
+      if (workspaceId) {
+        router.replace(`/workspace/${workspaceId}`);
+      }
+    },
+    [workspaceId, open, setOpen, router]
+  );
 
   return (
     <div className="h-screen flex items-center justify-center flex-col gap-3 bg-[#5f2659]">

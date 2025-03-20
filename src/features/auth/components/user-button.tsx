@@ -11,7 +11,14 @@ import { useAuthActions } from "@convex-dev/auth/react";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import logo from "../../../../public/logo-text.webp";
+import useConfirm from "@/hooks/use-confirm";
+import { useRouter } from "next/navigation";
 function UserButton() {
+  const router = useRouter();
+  const [ConfirmDialog, confirm] = useConfirm(
+    "Are you sure?",
+    "You will be logged out."
+  );
   const { signOut } = useAuthActions();
   const { data, isLoading } = useCurrentUser();
 
@@ -26,30 +33,44 @@ function UserButton() {
 
   const fallback = name![0].toLocaleUpperCase();
 
+  const handleLogout = async () => {
+    const ok = await confirm();
+
+    if (ok) {
+      await signOut();
+      router.replace("/auth");
+    }
+  };
   return (
-    <DropdownMenu modal={false}>
-      <DropdownMenuTrigger className="outline-none relative cursor-pointer ">
-        <Avatar className="size-10 hover:opacity-75 transition">
-          <AvatarImage alt={name} src={image} />
-          <AvatarFallback className="capitalize bg-pink-500 text-white">
-            {fallback}
-          </AvatarFallback>
-        </Avatar>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="center"
-        side="right"
-        className="w-60 p-2 space-y-2 mx-4 mb-1"
-      >
-        <Image src={logo} alt={"logo"} className=" size-auto" />
-        <address>{email}</address>
-        <Separator />
-        <DropdownMenuItem onClick={signOut} className="h-10 cursor-pointer">
-          <LogOut className="size-4 mr-2" />
-          Logout
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <>
+      <ConfirmDialog />
+      <DropdownMenu modal={false}>
+        <DropdownMenuTrigger className="outline-none relative cursor-pointer ">
+          <Avatar className="size-10 hover:opacity-75 transition">
+            <AvatarImage alt={name} src={image} />
+            <AvatarFallback className="capitalize bg-pink-500 text-white">
+              {fallback}
+            </AvatarFallback>
+          </Avatar>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          align="center"
+          side="right"
+          className="w-60 p-2 space-y-2 mx-4 mb-1"
+        >
+          <Image src={logo} alt={"logo"} className=" size-auto" />
+          <address>{email}</address>
+          <Separator />
+          <DropdownMenuItem
+            onClick={handleLogout}
+            className="h-10 cursor-pointer"
+          >
+            <LogOut className="size-4 mr-2" />
+            Logout
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>{" "}
+    </>
   );
 }
 

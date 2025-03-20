@@ -1,3 +1,4 @@
+import Hint from "@/components/hint";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,17 +12,12 @@ import { useCreateWorkspaceModal } from "@/features/workspaces/store/use-create-
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { Loader, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 function WorkspaceSwitcher() {
   const router = useRouter();
 
   const workspaceId = useWorkspaceId();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_open, setOpen] = useCreateWorkspaceModal();
   const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({
     id: workspaceId,
@@ -35,25 +31,20 @@ function WorkspaceSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="outline-none">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                className="size-9 relative overflow-hidden bg-[#ABABAD] hover:bg-[#ABABAD]/80 text-slate-800 font-semibold text-xl"
-                asChild
-              >
-                <div>
-                  {workspaceLoading ? (
-                    <Loader className="size-5 animate-spin shrink-0" />
-                  ) : (
-                    workspace?.name.charAt(0).toLocaleUpperCase()
-                  )}
-                </div>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>{workspace?.name}</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <Hint asChild message={workspace?.name}>
+          <Button
+            className="size-9 relative overflow-hidden bg-[#ABABAD] hover:bg-[#ABABAD]/80 text-slate-800 font-semibold text-xl"
+            asChild
+          >
+            <div>
+              {workspaceLoading ? (
+                <Loader className="size-5 animate-spin shrink-0" />
+              ) : (
+                workspace?.name.charAt(0).toLocaleUpperCase()
+              )}
+            </div>
+          </Button>
+        </Hint>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
