@@ -18,10 +18,10 @@ function SidebarButton({ icon: Icon, label, isActive }: Props) {
           isActive && "bg-accent/25"
         )}
       >
-        <Icon className="size-5 text-white group-hover:scale-110 transition-all" />
+        <Icon className="size-5 text-white group-hover:scale-110 transition-all group-active:scale-95" />
       </Button>
 
-      <span className="text-[11px] text-white group-hover:text-accent">
+      <span className="text-[11px] text-white group-hover:text-accent ">
         {label}
       </span>
     </div>

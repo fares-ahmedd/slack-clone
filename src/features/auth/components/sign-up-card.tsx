@@ -13,7 +13,7 @@ import { FcGoogle } from "react-icons/fc";
 import { SignInFlow } from "../types";
 import { useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
-import { isPasswordValid, isValidEmail } from "@/lib/utils";
+import { isValidPassword, isValidEmail } from "@/lib/utils";
 import toast from "react-hot-toast";
 import Logo from "@/components/logo";
 
@@ -45,7 +45,7 @@ function SignUpCard({ setState }: Props) {
   const onPasswordSignUp = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!isPasswordValid(data.password)) {
+    if (!isValidPassword(data.password)) {
       toast.error(
         "Password must contain at least 6 characters, including uppercase, lowercase, and numbers"
       );
@@ -84,10 +84,10 @@ function SignUpCard({ setState }: Props) {
     <Card className="w-full h-full p-8">
       <CardHeader className="px-0 pt-0">
         <Logo className="mx-auto" />
-        <CardTitle className="text-base md:text-3xl">
+        <CardTitle className="text-base md:text-3xl text-center">
           Sign Up To Continue
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-center">
           Use your email or another service to continue
         </CardDescription>
       </CardHeader>

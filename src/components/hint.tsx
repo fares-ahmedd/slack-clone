@@ -22,7 +22,7 @@ function Hint({
 }: Props) {
   return (
     <TooltipProvider>
-      <Tooltip delayDuration={50}>
+      <Tooltip delayDuration={100}>
         <TooltipTrigger asChild={asChild}>{children}</TooltipTrigger>
         <TooltipContent side={side} align={align}>
           <p className="text-xs"> {message}</p>

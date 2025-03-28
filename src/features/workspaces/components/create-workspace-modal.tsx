@@ -23,14 +23,14 @@ function CreateWorkSpaceModal() {
     // TODO: clear form
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (name.length < 3) {
       return toast.error("Workspace name must be at least 3 characters long.");
     }
 
-    await mutate(
+    mutate(
       {
         name,
       },

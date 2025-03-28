@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Hint from "@/components/hint";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,6 +10,7 @@ import {
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
 import { useGetWorkspaces } from "@/features/workspaces/api/use-get-workspaces";
 import { useCreateWorkspaceModal } from "@/features/workspaces/store/use-create-workspace-modal";
+import { useOpenPreferences } from "@/features/workspaces/store/use-open-preferences";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { Loader, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -16,8 +18,8 @@ import { useRouter } from "next/navigation";
 function WorkspaceSwitcher() {
   const router = useRouter();
 
+  const [_openPreferences, setOpenPreferences] = useOpenPreferences();
   const workspaceId = useWorkspaceId();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_open, setOpen] = useCreateWorkspaceModal();
   const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({
     id: workspaceId,
@@ -54,7 +56,7 @@ function WorkspaceSwitcher() {
       >
         <DropdownMenuItem
           className="cursor-pointer flex-col justify-start items-start capitalize gap-0.5"
-          onClick={() => router.push(`/workspace/${workspaceId}`)}
+          onClick={() => setOpenPreferences(true)}
         >
           <span className="line-clamp-1" title={workspace?.name}>
             {workspace?.name}

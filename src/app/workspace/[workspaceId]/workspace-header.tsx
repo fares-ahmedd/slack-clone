@@ -10,7 +10,7 @@ import { ChevronDown, ListFilter, SquarePen } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import Hint from "@/components/hint";
 import PreferencesModal from "./preferences-modal";
-import { useState } from "react";
+import { useOpenPreferences } from "@/features/workspaces/store/use-open-preferences";
 
 type Props = {
   workspace: Doc<"workspaces">;
@@ -18,14 +18,11 @@ type Props = {
 };
 
 function WorkspaceHeader({ workspace, isAdmin }: Props) {
-  const [preferencesOpen, setPreferencesOpen] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_preferencesOpen, setPreferencesOpen] = useOpenPreferences();
   return (
     <>
-      <PreferencesModal
-        open={preferencesOpen}
-        setOpen={setPreferencesOpen}
-        initialValue={workspace.name}
-      />
+      <PreferencesModal initialValue={workspace.name} />
       <div className="flex items-center justify-between px-4 h-[49px] gap-0.5 mt-1 outline-0 ">
         <DropdownMenu>
           <Button

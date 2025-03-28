@@ -11,7 +11,7 @@ export function isValidEmail(email: string): boolean {
   return emailRegex.test(email);
 }
 
-export function isPasswordValid(
+export function isValidPassword(
   password: string,
   minLength: number = 6
 ): boolean {
@@ -22,3 +22,13 @@ export function isPasswordValid(
 
   return hasUppercase && hasLowercase && hasDigit && hasMinLength;
 }
+
+export const generateCode = () => {
+  const code = Array.from({ length: 6 }, () =>
+    "0123456789abcdefjklmnopqrstuvwxyz".charAt(
+      Math.floor(Math.random() * "0123456789abcdefjklmnopqrstuvwxyz".length)
+    )
+  ).join("");
+
+  return code;
+};

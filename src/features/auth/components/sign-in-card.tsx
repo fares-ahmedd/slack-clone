@@ -68,10 +68,10 @@ function SignInCard({ setState }: Props) {
     <Card className=" h-full p-8 ">
       <CardHeader className="px-0 pt-0">
         <Logo className="mx-auto" />
-        <CardTitle className="text-base md:text-3xl">
+        <CardTitle className="text-base md:text-3xl text-center">
           Login To Continue
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-center">
           Use your email or another service to continue
         </CardDescription>
       </CardHeader>

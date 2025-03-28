@@ -63,7 +63,7 @@ function UserButton() {
           <Separator />
           <DropdownMenuItem
             onClick={handleLogout}
-            className="h-10 cursor-pointer"
+            className="h-10 cursor-pointer "
           >
             <LogOut className="size-4 mr-2" />
             Logout

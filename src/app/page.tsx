@@ -13,7 +13,7 @@ export default function Home() {
   const [open, setOpen] = useCreateWorkspaceModal();
   const { data, isLoading } = useGetWorkspaces();
 
-  const workspaceId = data?.[0]?._id;
+  const workspaceId = data?.at(data?.length - 1)?._id;
 
   useEffect(
     function checkForWorkspaceId() {
